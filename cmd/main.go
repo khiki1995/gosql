@@ -6,7 +6,7 @@ import (
 	"os"
 	"log"
 	"database/sql"
-	"github.com/khiki1995/gosql/cmd/server/app"
+	"github.com/khiki1995/gosql/cmd/app"
 	"github.com/khiki1995/gosql/pkg/customers"
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
