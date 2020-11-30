@@ -1,0 +1,14 @@
+### get customer
+GET http://localhost:9999/customers.getById?id=1
+
+### get all customer
+GET http://localhost:9999/customers.getAll
+
+### remove customer
+GET http://localhost:9999/customers.removeById?id=2
+
+### block customer
+GET http://localhost:9999/customers.blockById?id=1
+
+### unblock customer
+GET http://localhost:9999/customers.unblockById?id=1
