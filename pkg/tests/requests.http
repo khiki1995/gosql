@@ -2,13 +2,13 @@
 GET http://localhost:9999/customers.getById?id=2
 
 ### get all customer
-GET http://localhost:9999/customers.getAll
+GET http://localhost:9999/customers
 
 ### remove customer
 GET http://localhost:9999/customers.removeById?id=1
 
 ### block customer
-GET http://localhost:9999/customers.blockById?id=1
+POST http://localhost:9999/customers/1/block
 
 ### unblock customer
-GET http://localhost:9999/customers.unblockById?id=1
+DELETE http://localhost:9999/customers/1/block
