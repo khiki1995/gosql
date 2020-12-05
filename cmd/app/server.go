@@ -6,16 +6,19 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
 	"github.com/gorilla/mux"
 	"github.com/khiki1995/gosql/pkg/customers"
 )
+
 const (
-	GET = "GET"
-	POST = "POST"
+	GET    = "GET"
+	POST   = "POST"
 	DELETE = "DELETE"
 )
+
 type Server struct {
-	mux			 *mux.Router
+	mux          *mux.Router
 	customersSvc *customers.Service
 }
 
@@ -30,9 +33,9 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 func (s *Server) Init() {
 	s.mux.HandleFunc("/customers", s.handleGetAllCustomers).Methods(GET)
 	s.mux.HandleFunc("/customers/active", s.handleGetAllActiveCustomer).Methods(GET)
+	s.mux.HandleFunc("/customers/{id}", s.handleGetCustomerByID).Methods(GET)
 
 	s.mux.HandleFunc("/customers", s.handleSaveCustomer).Methods(POST)
-	s.mux.HandleFunc("/customers/{id}", s.handleGetCustomerByID).Methods(POST)
 	s.mux.HandleFunc("/customers/{id}/block", s.handleBlockByIdCustomer).Methods(POST)
 
 	s.mux.HandleFunc("/customers/{id}", s.handleRemoveByIdCustomer).Methods(DELETE)
@@ -124,7 +127,7 @@ func (s *Server) handleRemoveByIdCustomer(writer http.ResponseWriter, request *h
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	
+
 	data, err := json.Marshal(item)
 	if err != nil {
 		log.Println(err)
@@ -169,7 +172,7 @@ func (s *Server) handleGetAllActiveCustomer(writer http.ResponseWriter, request 
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	
+
 	data, err := json.Marshal(items)
 	if err != nil {
 		log.Println(err)
@@ -189,7 +192,7 @@ func (s *Server) handleGetAllCustomers(writer http.ResponseWriter, request *http
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	
+
 	data, err := json.Marshal(items)
 	if err != nil {
 		log.Println(err)
@@ -223,7 +226,7 @@ func (s *Server) handleGetCustomerByID(writer http.ResponseWriter, request *http
 		http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	
+
 	data, err := json.Marshal(item)
 	if err != nil {
 		log.Println(err)
