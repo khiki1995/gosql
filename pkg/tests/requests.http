@@ -3,6 +3,8 @@ GET http://localhost:9999/customers.getById?id=2
 
 ### get all customer
 GET http://localhost:9999/customers
+content-type: application/json
+Authorization: Basic admn 1234
 
 ### remove customer
 GET http://localhost:9999/customers.removeById?id=1

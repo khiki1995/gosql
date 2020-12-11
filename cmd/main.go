@@ -7,10 +7,12 @@ import (
 	"net/http"
 	"os"
 	"time"
+
 	"github.com/gorilla/mux"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/khiki1995/gosql/cmd/app"
 	"github.com/khiki1995/gosql/pkg/customers"
+	"github.com/khiki1995/gosql/pkg/security"
 	"go.uber.org/dig"
 )
 
@@ -30,9 +32,11 @@ func execute(host string, port string, dsn string) (err error) {
 		mux.NewRouter,
 		func() (*pgxpool.Pool, error) {
 			ctx, _ := context.WithTimeout(context.Background(), time.Second*5)
+			//defer cancel()
 			return pgxpool.Connect(ctx, dsn)
 		},
 		customers.NewService,
+		security.NewService,
 		func(server *app.Server) *http.Server {
 			return &http.Server{
 				Addr:    net.JoinHostPort(host, port),
@@ -40,7 +44,7 @@ func execute(host string, port string, dsn string) (err error) {
 			}
 		},
 	}
-
+ 
 	container := dig.New()
 	for _, dep := range deps {
 		err = container.Provide(dep)
