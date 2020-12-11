@@ -12,9 +12,8 @@ func NewService(pool *pgxpool.Pool) *Service {
 	return &Service{pool: pool}
 }
 
-func (s *Service) Auth(ctx context.Context, login, password string) (ok bool) {
-	var managerID int64
-	err := s.pool.QueryRow(ctx, `SELECT id FROM managers WHERE login = $1 and password = $2`, login, password).Scan(&managerID)
+func (s *Service) Auth(login, password string) (ok bool) {
+	err := s.pool.QueryRow(context.Background(), `SELECT login FROM managers WHERE login = $1 and password = $2`, login, password).Scan(&login)
 	if err != nil {
 		return false
 	}

@@ -31,8 +31,8 @@ func execute(host string, port string, dsn string) (err error) {
 		app.NewServer,
 		mux.NewRouter,
 		func() (*pgxpool.Pool, error) {
-			ctx, _ := context.WithTimeout(context.Background(), time.Second*5)
-			//defer cancel()
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+			defer cancel()
 			return pgxpool.Connect(ctx, dsn)
 		},
 		customers.NewService,

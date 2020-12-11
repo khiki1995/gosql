@@ -37,7 +37,7 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 func (s *Server) Init() {
 	s.mux.Use(middleware.Logger)
 	s.mux.Use(middleware.CheckHeader("Content-Type", "application/json"))
-	s.mux.Use(middleware.Basic(s.securitySvc))
+	s.mux.Use(middleware.Basic(s.securitySvc.Auth))
 	s.mux.HandleFunc("/customers", s.handleGetAllCustomers).Methods(GET)
 	s.mux.HandleFunc("/customers/active", s.handleGetAllActiveCustomer).Methods(GET)
 	s.mux.HandleFunc("/customers/{id}", s.handleGetCustomerByID).Methods(GET)
